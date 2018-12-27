@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.aiwen.logistics.dao.ReleaseSourceMapper" >
+    <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.ReleaseSource" >
+      <id column="source_id" property="sourceId" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
+      <result column="arrive_address" property="arriveAddress" jdbcType="VARCHAR" />
+      <result column="pack" property="pack" jdbcType="VARCHAR" />
+      <result column="goods" property="goods" jdbcType="VARCHAR" />
+      <result column="weight" property="weight" jdbcType="VARCHAR" />
+      <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+      <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+      <result column="transport_type" property="transportType" jdbcType="INTEGER" />
+      <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+      <result column="bidding" property="bidding" jdbcType="INTEGER" />
+      <result column="order_state" property="orderState" jdbcType="INTEGER" />
+      <result column="return_reason" property="returnReason" jdbcType="VARCHAR" />
+      <result column="start_name" property="startName" jdbcType="VARCHAR" />
+      <result column="start_phone" property="startPhone" jdbcType="VARCHAR" />
+      <result column="arrive_name" property="arriveName" jdbcType="VARCHAR" />
+      <result column="arrive_phone" property="arrivePhone" jdbcType="VARCHAR" />
+      <result column="exp_offer" property="expOffer" jdbcType="DOUBLE" />
+      <result column="plat_offer" property="platOffer" jdbcType="DOUBLE" />
+        <result column="str_supplier" property="strSupplier" jdbcType="VARCHAR" />
+      <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+    </resultMap>
+
+  <resultMap type="com.aiwen.logistics.pojo.ReleaseSource" id="resultMap" extends="BaseResultMap">
+    <association property="userFront" javaType="com.aiwen.logistics.pojo.UserFront"
+                 column="supplier" select="com.aiwen.logistics.dao.UserFrontMapper.findUserFrontBySupplier"></association>
+  </resultMap>
+
+  <select id="findReleaseSourceByOrderReleaseSourceId" resultMap="resultMap" parameterType="INTEGER">
+    select
+    <include refid="Base_Column_List"></include>
+    from release_source rs
+    where rs.source_id = #{id}
+  </select>
+
+  <select id="selectReleaseSourceListByUserId" resultMap="resultMap" parameterType="INTEGER">
+    select
+    <include refid="Base_Column_List"></include>
+    from release_source rs
+    where rs.user_id = #{id} AND order_state !=6 ORDER BY source_id desc
+  </select>
+
+    <sql id="Example_Where_Clause" >
+      <where >
+        <foreach collection="oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+      <where >
+        <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+          <if test="criteria.valid" >
+            <trim prefix="(" suffix=")" prefixOverrides="and" >
+              <foreach collection="criteria.criteria" item="criterion" >
+                <choose >
+                  <when test="criterion.noValue" >
+                    and ${criterion.condition}
+                  </when>
+                  <when test="criterion.singleValue" >
+                    and ${criterion.condition} #{criterion.value}
+                  </when>
+                  <when test="criterion.betweenValue" >
+                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                  </when>
+                  <when test="criterion.listValue" >
+                    and ${criterion.condition}
+                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                      #{listItem}
+                    </foreach>
+                  </when>
+                </choose>
+              </foreach>
+            </trim>
+          </if>
+        </foreach>
+      </where>
+    </sql>
+    <sql id="Base_Column_List" >
+      source_id, user_id, start_address, arrive_address, pack, goods, weight, create_time,
+      end_time, transport_type, supplier, bidding, order_state, return_reason,start_name,start_phone,arrive_name,arrive_phone,exp_offer,plat_offer,str_supplier,end_date
+    </sql>
+    <select id="selectByExample" resultMap="resultMap" parameterType="com.aiwen.logistics.pojo.ReleaseSourceExample" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      'true' as QUERYID,
+      <include refid="Base_Column_List" />
+      from release_source
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause} DESC
+      </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="resultMap" parameterType="java.lang.Integer" >
+      select
+      <include refid="Base_Column_List" />
+      from release_source
+      where source_id = #{sourceId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from release_source
+      where source_id = #{sourceId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.ReleaseSourceExample" >
+      delete from release_source
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </delete>
+    <insert id="insert" parameterType="com.aiwen.logistics.pojo.ReleaseSource" >
+      insert into release_source (source_id, user_id, start_address,
+      arrive_address, pack, goods,
+      weight, create_time, end_time,
+      transport_type, supplier, bidding,str_supplier,
+      order_state, return_reason,start_name,start_phone,arrive_name,arrive_phone,exp_offer,plat_offer,end_date)
+      values (#{sourceId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{startAddress,jdbcType=VARCHAR},
+      #{arriveAddress,jdbcType=VARCHAR}, #{pack,jdbcType=VARCHAR}, #{goods,jdbcType=VARCHAR},
+      #{weight,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
+      #{transportType,jdbcType=INTEGER}, #{supplier,jdbcType=VARCHAR}, #{bidding,jdbcType=INTEGER},#{strSupplier,jdbcType=VARCHAR},
+      #{orderState,jdbcType=INTEGER}, #{returnReason,jdbcType=VARCHAR}, #{startName,jdbcType=VARCHAR}, #{startPhone,jdbcType=VARCHAR}
+      , #{arriveName,jdbcType=VARCHAR}, #{arrivePhone,jdbcType=VARCHAR}, #{expOffer,jdbcType=DOUBLE}, #{platOffer,jdbcType=DOUBLE}, #{endDate,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.ReleaseSource" >
+      insert into release_source
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="sourceId != null" >
+          source_id,
+        </if>
+        <if test="userId != null" >
+          user_id,
+        </if>
+        <if test="startAddress != null" >
+          start_address,
+        </if>
+        <if test="arriveAddress != null" >
+          arrive_address,
+        </if>
+        <if test="pack != null" >
+          pack,
+        </if>
+        <if test="goods != null" >
+          goods,
+        </if>
+        <if test="weight != null" >
+          weight,
+        </if>
+        <if test="createTime != null" >
+          create_time,
+        </if>
+        <if test="endTime != null" >
+          end_time,
+        </if>
+        <if test="transportType != null" >
+          transport_type,
+        </if>
+        <if test="supplier != null" >
+          supplier,
+        </if>
+          <if test="strSupplier != null" >
+              str_supplier,
+          </if>
+        <if test="bidding != null" >
+          bidding,
+        </if>
+        <if test="orderState != null" >
+          order_state,
+        </if>
+        <if test="returnReason != null" >
+          return_reason,
+        </if>
+        <if test="startName != null" >
+          start_name,
+        </if>
+        <if test="startPhone != null" >
+          start_phone,
+        </if>
+        <if test="arriveName != null" >
+          arrive_name,
+        </if>
+        <if test="arrivePhone != null" >
+          arrive_phone,
+        </if>
+        <if test="expOffer != null" >
+          exp_offer,
+        </if>
+        <if test="platOffer != null" >
+          plat_offer,
+        </if>
+        <if test="endDate != null" >
+          end_date,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="sourceId != null" >
+          #{sourceId,jdbcType=INTEGER},
+        </if>
+        <if test="userId != null" >
+          #{userId,jdbcType=INTEGER},
+        </if>
+        <if test="startAddress != null" >
+          #{startAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="arriveAddress != null" >
+          #{arriveAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="pack != null" >
+          #{pack,jdbcType=VARCHAR},
+        </if>
+        <if test="goods != null" >
+          #{goods,jdbcType=VARCHAR},
+        </if>
+        <if test="weight != null" >
+          #{weight,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+          #{createTime,jdbcType=VARCHAR},
+        </if>
+        <if test="endTime != null" >
+          #{endTime,jdbcType=VARCHAR},
+        </if>
+        <if test="transportType != null" >
+          #{transportType,jdbcType=INTEGER},
+        </if>
+        <if test="supplier != null" >
+          #{supplier,jdbcType=VARCHAR},
+        </if>
+          <if test="strSupplier != null" >
+              #{strSupplier,jdbcType=VARCHAR},
+          </if>
+        <if test="bidding != null" >
+          #{bidding,jdbcType=INTEGER},
+        </if>
+        <if test="orderState != null" >
+          #{orderState,jdbcType=INTEGER},
+        </if>
+        <if test="returnReason != null" >
+          #{returnReason,jdbcType=VARCHAR},
+        </if>
+        <if test="startName != null" >
+          #{startName,jdbcType=VARCHAR},
+        </if>
+        <if test="startPhone != null" >
+          #{startPhone,jdbcType=VARCHAR},
+        </if>
+        <if test="arriveName != null" >
+          #{arriveName,jdbcType=VARCHAR},
+        </if>
+        <if test="arrivePhone != null" >
+          #{arrivePhone,jdbcType=VARCHAR},
+        </if>
+        <if test="expOffer != null" >
+          #{expOffer,jdbcType=DOUBLE},
+        </if>
+        <if test="platOffer != null" >
+          #{platOffer,jdbcType=DOUBLE},
+        </if>
+        <if test="endDate != null" >
+          #{endDate,jdbcType=VARCHAR},
+        </if>
+      </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.aiwen.logistics.pojo.ReleaseSourceExample" resultType="java.lang.Integer" >
+      select count(*) from release_source
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+      update release_source
+      <set >
+        <if test="record.sourceId != null" >
+          source_id = #{record.sourceId,jdbcType=INTEGER},
+        </if>
+        <if test="record.userId != null" >
+          user_id = #{record.userId,jdbcType=INTEGER},
+        </if>
+        <if test="record.startAddress != null" >
+          start_address = #{record.startAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriveAddress != null" >
+          arrive_address = #{record.arriveAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="record.pack != null" >
+          pack = #{record.pack,jdbcType=VARCHAR},
+        </if>
+        <if test="record.goods != null" >
+          goods = #{record.goods,jdbcType=VARCHAR},
+        </if>
+        <if test="record.weight != null" >
+          weight = #{record.weight,jdbcType=VARCHAR},
+        </if>
+        <if test="record.createTime != null" >
+          create_time = #{record.createTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.endTime != null" >
+          end_time = #{record.endTime,jdbcType=VARCHAR},
+        </if>
+        <if test="record.transportType != null" >
+          transport_type = #{record.transportType,jdbcType=INTEGER},
+        </if>
+        <if test="record.supplier != null" >
+          supplier = #{record.supplier,jdbcType=VARCHAR},
+        </if>
+          <if test="record.strSupplier != null" >
+              str_supplier = #{record.strSupplier,jdbcType=VARCHAR},
+          </if>
+        <if test="record.bidding != null" >
+          bidding = #{record.bidding,jdbcType=INTEGER},
+        </if>
+        <if test="record.orderState != null" >
+          order_state = #{record.orderState,jdbcType=INTEGER},
+        </if>
+        <if test="record.returnReason != null" >
+          return_reason = #{record.returnReason,jdbcType=VARCHAR},
+        </if>
+        <if test="record.startName != null" >
+          start_name = #{record.startName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.startPhone != null" >
+          start_phone = #{record.startPhone,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arriveName != null" >
+          arrive_name = #{record.arriveName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.arrivePhone != null" >
+          arrive_phone = #{record.arrivePhone,jdbcType=VARCHAR},
+        </if>
+        <if test="record.expOffer != null" >
+          exp_offer = #{record.expOffer,jdbcType=DOUBLE},
+        </if>
+        <if test="record.platOffer != null" >
+          plat_offer = #{record.platOffer,jdbcType=DOUBLE},
+        </if>
+      </set>
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=VARCHAR},
+      </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+      update release_source
+      set source_id = #{record.sourceId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      start_address = #{record.startAddress,jdbcType=VARCHAR},
+      arrive_address = #{record.arriveAddress,jdbcType=VARCHAR},
+      pack = #{record.pack,jdbcType=VARCHAR},
+      goods = #{record.goods,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR},
+      transport_type = #{record.transportType,jdbcType=INTEGER},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+        str_supplier = #{record.strSupplier,jdbcType=VARCHAR},
+      bidding = #{record.bidding,jdbcType=INTEGER},
+      order_state = #{record.orderState,jdbcType=INTEGER},
+      return_reason = #{record.returnReason,jdbcType=VARCHAR},
+      start_name = #{record.startName,jdbcType=VARCHAR},
+      start_phone = #{record.startPhone,jdbcType=VARCHAR},
+      arrive_name = #{record.arriveName,jdbcType=VARCHAR},
+      arrive_phone = #{record.arrivePhone,jdbcType=VARCHAR},
+      exp_offer = #{record.expOffer,jdbcType=DOUBLE},
+      plat_offer = #{record.platOffer,jdbcType=DOUBLE},
+      end_date = #{record.endDate,jdbcType=VARCHAR}
+      <if test="_parameter != null" >
+        <include refid="Update_By_Example_Where_Clause" />
+      </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.ReleaseSource" >
+      update release_source
+      <set >
+        <if test="userId != null" >
+          user_id = #{userId,jdbcType=INTEGER},
+        </if>
+        <if test="startAddress != null" >
+          start_address = #{startAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="arriveAddress != null" >
+          arrive_address = #{arriveAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="pack != null" >
+          pack = #{pack,jdbcType=VARCHAR},
+        </if>
+        <if test="goods != null" >
+          goods = #{goods,jdbcType=VARCHAR},
+        </if>
+        <if test="weight != null" >
+          weight = #{weight,jdbcType=VARCHAR},
+        </if>
+        <if test="createTime != null" >
+          create_time = #{createTime,jdbcType=VARCHAR},
+        </if>
+        <if test="endTime != null" >
+          end_time = #{endTime,jdbcType=VARCHAR},
+        </if>
+        <if test="transportType != null" >
+          transport_type = #{transportType,jdbcType=INTEGER},
+        </if>
+        <if test="supplier != null" >
+          supplier = #{supplier,jdbcType=VARCHAR},
+        </if>
+          <if test="strSupplier != null" >
+              str_supplier = #{strSupplier,jdbcType=VARCHAR},
+          </if>
+        <if test="bidding != null" >
+          bidding = #{bidding,jdbcType=INTEGER},
+        </if>
+        <if test="orderState != null" >
+          order_state = #{orderState,jdbcType=INTEGER},
+        </if>
+        <if test="returnReason != null" >
+          return_reason = #{returnReason,jdbcType=VARCHAR},
+        </if>
+        <if test="startName != null" >
+          start_name = #{startName,jdbcType=VARCHAR},
+        </if>
+        <if test="startPhone != null" >
+          start_phone = #{startPhone,jdbcType=VARCHAR},
+        </if>
+        <if test="arriveName != null" >
+          arrive_name = #{arriveName,jdbcType=VARCHAR},
+        </if>
+        <if test="arrivePhone != null" >
+          arrive_phone = #{arrivePhone,jdbcType=VARCHAR},
+        </if>
+        <if test="expOffer != null" >
+          exp_offer = #{expOffer,jdbcType=DOUBLE},
+        </if>
+        <if test="platOffer != null" >
+          plat_offer = #{platOffer,jdbcType=DOUBLE},
+        </if>
+        <if test="endDate != null" >
+          end_date = #{endDate,jdbcType=VARCHAR},
+        </if>
+      </set>
+      where source_id = #{sourceId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.ReleaseSource" >
+    update release_source
+    set user_id = #{userId,jdbcType=INTEGER},
+      start_address = #{startAddress,jdbcType=VARCHAR},
+      arrive_address = #{arriveAddress,jdbcType=VARCHAR},
+      pack = #{pack,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      transport_type = #{transportType,jdbcType=INTEGER},
+      supplier = #{supplier,jdbcType=VARCHAR},
+       str_supplier = #{strSupplier,jdbcType=VARCHAR},
+      bidding = #{bidding,jdbcType=INTEGER},
+      order_state = #{orderState,jdbcType=INTEGER},
+      return_reason = #{returnReason,jdbcType=VARCHAR},
+      start_name = #{startName,jdbcType=VARCHAR},
+      start_phone = #{startPhone,jdbcType=VARCHAR},
+      arrive_name = #{arriveName,jdbcType=VARCHAR},
+      arrive_phone = #{arrivePhone,jdbcType=VARCHAR},
+      exp_offer = #{expOffer,jdbcType=DOUBLE},
+      plat_offer = #{platOffer,jdbcType=DOUBLE},
+      end_date = #{endDate,jdbcType=VARCHAR}
+    where source_id = #{sourceId,jdbcType=INTEGER}
+  </update>
+    <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.ReleaseSourceExample" id="selectByExampleWithRowbounds" >
+      select
+      <if test="distinct" >
+        distinct
+      </if>
+      'true' as QUERYID,
+      <include refid="Base_Column_List" />
+      from release_source
+      <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+      </if>
+      <if test="orderByClause != null" >
+        order by ${orderByClause}
+      </if>
+    </select>
+  </mapper>

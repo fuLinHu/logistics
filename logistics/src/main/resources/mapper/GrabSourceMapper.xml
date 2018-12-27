@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.GrabSourceMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.GrabSource" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="transport_id" property="transportId" jdbcType="INTEGER" />
+    <result column="car_id" property="carId" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="car_user_name" property="carUserName" jdbcType="VARCHAR" />
+    <result column="car_phone" property="carPhone" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
+    <result column="end_address" property="endAddress" jdbcType="VARCHAR" />
+    <result column="goods" property="goods" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="car_band" property="carBand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, transport_id, car_id, source_id, user_id, user_name, car_user_name, car_phone, 
+    price, start_address, end_address, goods, weight, status, car_band
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.GrabSourceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from grab_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from grab_source
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from grab_source
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.GrabSourceExample" >
+    delete from grab_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.GrabSource" >
+    insert into grab_source (id, transport_id, car_id, 
+      source_id, user_id, user_name, 
+      car_user_name, car_phone, price, 
+      start_address, end_address, goods, 
+      weight, status, car_band
+      )
+    values (#{id,jdbcType=INTEGER}, #{transportId,jdbcType=INTEGER}, #{carId,jdbcType=INTEGER}, 
+      #{sourceId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{carUserName,jdbcType=VARCHAR}, #{carPhone,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{startAddress,jdbcType=VARCHAR}, #{endAddress,jdbcType=VARCHAR}, #{goods,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, #{carBand,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.GrabSource" >
+    insert into grab_source
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="transportId != null" >
+        transport_id,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="carUserName != null" >
+        car_user_name,
+      </if>
+      <if test="carPhone != null" >
+        car_phone,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="startAddress != null" >
+        start_address,
+      </if>
+      <if test="endAddress != null" >
+        end_address,
+      </if>
+      <if test="goods != null" >
+        goods,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="carBand != null" >
+        car_band,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="transportId != null" >
+        #{transportId,jdbcType=INTEGER},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carUserName != null" >
+        #{carUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="carPhone != null" >
+        #{carPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="startAddress != null" >
+        #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="endAddress != null" >
+        #{endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="carBand != null" >
+        #{carBand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.GrabSourceExample" resultType="java.lang.Integer" >
+    select count(*) from grab_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update grab_source
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.transportId != null" >
+        transport_id = #{record.transportId,jdbcType=INTEGER},
+      </if>
+      <if test="record.carId != null" >
+        car_id = #{record.carId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourceId != null" >
+        source_id = #{record.sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carUserName != null" >
+        car_user_name = #{record.carUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carPhone != null" >
+        car_phone = #{record.carPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.startAddress != null" >
+        start_address = #{record.startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endAddress != null" >
+        end_address = #{record.endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goods != null" >
+        goods = #{record.goods,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.carBand != null" >
+        car_band = #{record.carBand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update grab_source
+    set id = #{record.id,jdbcType=INTEGER},
+      transport_id = #{record.transportId,jdbcType=INTEGER},
+      car_id = #{record.carId,jdbcType=INTEGER},
+      source_id = #{record.sourceId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      car_user_name = #{record.carUserName,jdbcType=VARCHAR},
+      car_phone = #{record.carPhone,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      start_address = #{record.startAddress,jdbcType=VARCHAR},
+      end_address = #{record.endAddress,jdbcType=VARCHAR},
+      goods = #{record.goods,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=INTEGER},
+      car_band = #{record.carBand,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.GrabSource" >
+    update grab_source
+    <set >
+      <if test="transportId != null" >
+        transport_id = #{transportId,jdbcType=INTEGER},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carUserName != null" >
+        car_user_name = #{carUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="carPhone != null" >
+        car_phone = #{carPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="startAddress != null" >
+        start_address = #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="endAddress != null" >
+        end_address = #{endAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="goods != null" >
+        goods = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="carBand != null" >
+        car_band = #{carBand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.GrabSource" >
+    update grab_source
+    set transport_id = #{transportId,jdbcType=INTEGER},
+      car_id = #{carId,jdbcType=INTEGER},
+      source_id = #{sourceId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      car_user_name = #{carUserName,jdbcType=VARCHAR},
+      car_phone = #{carPhone,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      start_address = #{startAddress,jdbcType=VARCHAR},
+      end_address = #{endAddress,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      car_band = #{carBand,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.GrabSourceExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from grab_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

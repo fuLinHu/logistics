@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.OceanCarriageInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.OceanCarriageInformation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="voyage" property="voyage" jdbcType="VARCHAR" />
+    <result column="closing_time" property="closingTime" jdbcType="VARCHAR" />
+    <result column="sailing_time" property="sailingTime" jdbcType="VARCHAR" />
+    <result column="bill_number" property="billNumber" jdbcType="VARCHAR" />
+    <result column="container_number" property="containerNumber" jdbcType="VARCHAR" />
+    <result column="container_type" property="containerType" jdbcType="VARCHAR" />
+    <result column="container_volume" property="containerVolume" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contact_way" property="contactWay" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, voyage, closing_time, sailing_time, bill_number, container_number, container_type,
+    container_volume, contacts, contact_way, user_name, user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ocean_carriage_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from ocean_carriage_information
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ocean_carriage_information
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformationExample" >
+    delete from ocean_carriage_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformation" >
+    insert into ocean_carriage_information (id, voyage, closing_time,
+    sailing_time, bill_number, container_number,
+    container_type, container_volume, contacts,
+    contact_way, user_name, user_id
+    )
+    values (#{id,jdbcType=INTEGER}, #{voyage,jdbcType=VARCHAR}, #{closingTime,jdbcType=VARCHAR},
+    #{sailingTime,jdbcType=VARCHAR}, #{billNumber,jdbcType=VARCHAR}, #{containerNumber,jdbcType=VARCHAR},
+    #{containerType,jdbcType=VARCHAR}, #{containerVolume,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR},
+    #{contactWay,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformation" >
+    insert into ocean_carriage_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="voyage != null" >
+        voyage,
+      </if>
+      <if test="closingTime != null" >
+        closing_time,
+      </if>
+      <if test="sailingTime != null" >
+        sailing_time,
+      </if>
+      <if test="billNumber != null" >
+        bill_number,
+      </if>
+      <if test="containerNumber != null" >
+        container_number,
+      </if>
+      <if test="containerType != null" >
+        container_type,
+      </if>
+      <if test="containerVolume != null" >
+        container_volume,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="contactWay != null" >
+        contact_way,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="voyage != null" >
+        #{voyage,jdbcType=VARCHAR},
+      </if>
+      <if test="closingTime != null" >
+        #{closingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sailingTime != null" >
+        #{sailingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="billNumber != null" >
+        #{billNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="containerNumber != null" >
+        #{containerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="containerType != null" >
+        #{containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="containerVolume != null" >
+        #{containerVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformationExample" resultType="java.lang.Integer" >
+    select count(*) from ocean_carriage_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ocean_carriage_information
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.voyage != null" >
+        voyage = #{record.voyage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.closingTime != null" >
+        closing_time = #{record.closingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sailingTime != null" >
+        sailing_time = #{record.sailingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billNumber != null" >
+        bill_number = #{record.billNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerNumber != null" >
+        container_number = #{record.containerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerType != null" >
+        container_type = #{record.containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerVolume != null" >
+        container_volume = #{record.containerVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contacts != null" >
+        contacts = #{record.contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactWay != null" >
+        contact_way = #{record.contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ocean_carriage_information
+    set id = #{record.id,jdbcType=INTEGER},
+    voyage = #{record.voyage,jdbcType=VARCHAR},
+    closing_time = #{record.closingTime,jdbcType=VARCHAR},
+    sailing_time = #{record.sailingTime,jdbcType=VARCHAR},
+    bill_number = #{record.billNumber,jdbcType=VARCHAR},
+    container_number = #{record.containerNumber,jdbcType=VARCHAR},
+    container_type = #{record.containerType,jdbcType=VARCHAR},
+    container_volume = #{record.containerVolume,jdbcType=VARCHAR},
+    contacts = #{record.contacts,jdbcType=VARCHAR},
+    contact_way = #{record.contactWay,jdbcType=VARCHAR},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    user_id = #{record.userId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformation" >
+    update ocean_carriage_information
+    <set >
+      <if test="voyage != null" >
+        voyage = #{voyage,jdbcType=VARCHAR},
+      </if>
+      <if test="closingTime != null" >
+        closing_time = #{closingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sailingTime != null" >
+        sailing_time = #{sailingTime,jdbcType=VARCHAR},
+      </if>
+      <if test="billNumber != null" >
+        bill_number = #{billNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="containerNumber != null" >
+        container_number = #{containerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="containerType != null" >
+        container_type = #{containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="containerVolume != null" >
+        container_volume = #{containerVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformation" >
+    update ocean_carriage_information
+    set voyage = #{voyage,jdbcType=VARCHAR},
+      closing_time = #{closingTime,jdbcType=VARCHAR},
+      sailing_time = #{sailingTime,jdbcType=VARCHAR},
+      bill_number = #{billNumber,jdbcType=VARCHAR},
+      container_number = #{containerNumber,jdbcType=VARCHAR},
+      container_type = #{containerType,jdbcType=VARCHAR},
+      container_volume = #{containerVolume,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.OceanCarriageInformationExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ocean_carriage_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.GoodQuotationsMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.GoodQuotations" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="good_code" property="goodCode" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="open_price" property="openPrice" jdbcType="DOUBLE" />
+    <result column="max_price" property="maxPrice" jdbcType="DOUBLE" />
+    <result column="min_price" property="minPrice" jdbcType="DOUBLE" />
+    <result column="buy_price" property="buyPrice" jdbcType="DOUBLE" />
+    <result column="sell_price" property="sellPrice" jdbcType="DOUBLE" />
+    <result column="new_price" property="newPrice" jdbcType="DOUBLE" />
+    <result column="rise_and_fall" property="riseAndFall" jdbcType="DOUBLE" />
+    <result column="turnover" property="turnover" jdbcType="DOUBLE" />
+    <result column="purchase_sales_volum" property="purchaseSalesVolum" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, good_code, good_name, open_price, max_price, min_price, buy_price, sell_price, 
+    new_price, rise_and_fall, turnover, purchase_sales_volum, state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.GoodQuotationsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from good_quotations
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause} DESC
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from good_quotations
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from good_quotations
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.GoodQuotationsExample" >
+    delete from good_quotations
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.GoodQuotations" >
+    insert into good_quotations (id, good_code, good_name, 
+      open_price, max_price, min_price, 
+      buy_price, sell_price, new_price, 
+      rise_and_fall, turnover, purchase_sales_volum, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{goodCode,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, 
+      #{openPrice,jdbcType=DOUBLE}, #{maxPrice,jdbcType=DOUBLE}, #{minPrice,jdbcType=DOUBLE}, 
+      #{buyPrice,jdbcType=DOUBLE}, #{sellPrice,jdbcType=DOUBLE}, #{newPrice,jdbcType=DOUBLE}, 
+      #{riseAndFall,jdbcType=DOUBLE}, #{turnover,jdbcType=DOUBLE}, #{purchaseSalesVolum,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.GoodQuotations" >
+    insert into good_quotations
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodCode != null" >
+        good_code,
+      </if>
+      <if test="goodName != null" >
+        good_name,
+      </if>
+      <if test="openPrice != null" >
+        open_price,
+      </if>
+      <if test="maxPrice != null" >
+        max_price,
+      </if>
+      <if test="minPrice != null" >
+        min_price,
+      </if>
+      <if test="buyPrice != null" >
+        buy_price,
+      </if>
+      <if test="sellPrice != null" >
+        sell_price,
+      </if>
+      <if test="newPrice != null" >
+        new_price,
+      </if>
+      <if test="riseAndFall != null" >
+        rise_and_fall,
+      </if>
+      <if test="turnover != null" >
+        turnover,
+      </if>
+      <if test="purchaseSalesVolum != null" >
+        purchase_sales_volum,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodCode != null" >
+        #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="openPrice != null" >
+        #{openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="maxPrice != null" >
+        #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="minPrice != null" >
+        #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="buyPrice != null" >
+        #{buyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sellPrice != null" >
+        #{sellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="newPrice != null" >
+        #{newPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="riseAndFall != null" >
+        #{riseAndFall,jdbcType=DOUBLE},
+      </if>
+      <if test="turnover != null" >
+        #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaseSalesVolum != null" >
+        #{purchaseSalesVolum,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.GoodQuotationsExample" resultType="java.lang.Integer" >
+    select count(*) from good_quotations
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update good_quotations
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodCode != null" >
+        good_code = #{record.goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodName != null" >
+        good_name = #{record.goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openPrice != null" >
+        open_price = #{record.openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxPrice != null" >
+        max_price = #{record.maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minPrice != null" >
+        min_price = #{record.minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.buyPrice != null" >
+        buy_price = #{record.buyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.sellPrice != null" >
+        sell_price = #{record.sellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.newPrice != null" >
+        new_price = #{record.newPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.riseAndFall != null" >
+        rise_and_fall = #{record.riseAndFall,jdbcType=DOUBLE},
+      </if>
+      <if test="record.turnover != null" >
+        turnover = #{record.turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="record.purchaseSalesVolum != null" >
+        purchase_sales_volum = #{record.purchaseSalesVolum,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update good_quotations
+    set id = #{record.id,jdbcType=INTEGER},
+      good_code = #{record.goodCode,jdbcType=VARCHAR},
+      good_name = #{record.goodName,jdbcType=VARCHAR},
+      open_price = #{record.openPrice,jdbcType=DOUBLE},
+      max_price = #{record.maxPrice,jdbcType=DOUBLE},
+      min_price = #{record.minPrice,jdbcType=DOUBLE},
+      buy_price = #{record.buyPrice,jdbcType=DOUBLE},
+      sell_price = #{record.sellPrice,jdbcType=DOUBLE},
+      new_price = #{record.newPrice,jdbcType=DOUBLE},
+      rise_and_fall = #{record.riseAndFall,jdbcType=DOUBLE},
+      turnover = #{record.turnover,jdbcType=DOUBLE},
+      purchase_sales_volum = #{record.purchaseSalesVolum,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.GoodQuotations" >
+    update good_quotations
+    <set >
+      <if test="goodCode != null" >
+        good_code = #{goodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="openPrice != null" >
+        open_price = #{openPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="maxPrice != null" >
+        max_price = #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="minPrice != null" >
+        min_price = #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="buyPrice != null" >
+        buy_price = #{buyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sellPrice != null" >
+        sell_price = #{sellPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="newPrice != null" >
+        new_price = #{newPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="riseAndFall != null" >
+        rise_and_fall = #{riseAndFall,jdbcType=DOUBLE},
+      </if>
+      <if test="turnover != null" >
+        turnover = #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="purchaseSalesVolum != null" >
+        purchase_sales_volum = #{purchaseSalesVolum,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.GoodQuotations" >
+    update good_quotations
+    set good_code = #{goodCode,jdbcType=VARCHAR},
+      good_name = #{goodName,jdbcType=VARCHAR},
+      open_price = #{openPrice,jdbcType=DOUBLE},
+      max_price = #{maxPrice,jdbcType=DOUBLE},
+      min_price = #{minPrice,jdbcType=DOUBLE},
+      buy_price = #{buyPrice,jdbcType=DOUBLE},
+      sell_price = #{sellPrice,jdbcType=DOUBLE},
+      new_price = #{newPrice,jdbcType=DOUBLE},
+      rise_and_fall = #{riseAndFall,jdbcType=DOUBLE},
+      turnover = #{turnover,jdbcType=DOUBLE},
+      purchase_sales_volum = #{purchaseSalesVolum,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.GoodQuotationsExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from good_quotations
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

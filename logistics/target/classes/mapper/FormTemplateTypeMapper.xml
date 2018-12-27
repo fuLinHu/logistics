@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.FormTemplateTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.formTemplateType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fromTypeName" property="fromTypeName" jdbcType="VARCHAR" />
+    <result column="fromTypeVal" property="fromTypeVal" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="DATE" />
+  </resultMap>
+
+  <select id="findAll" resultType="com.aiwen.logistics.pojo.formTemplateType">
+    select * from formtemplatetype;
+  </select>
+
+  <select id="selectByType" parameterType="java.lang.String" resultType="com.aiwen.logistics.pojo.formTemplateType">
+    select * from formtemplatetype where type = #{type};
+  </select>
+
+</mapper>

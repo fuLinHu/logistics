@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.CarInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.CarInformation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="car_brand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="car_type" property="carType" jdbcType="VARCHAR" />
+    <result column="car_long" property="carLong" jdbcType="DOUBLE" />
+    <result column="car_width" property="carWidth" jdbcType="DOUBLE" />
+    <result column="car_high" property="carHigh" jdbcType="DOUBLE" />
+    <result column="car_load" property="carLoad" jdbcType="DOUBLE" />
+    <result column="transport_prove" property="transportProve" jdbcType="VARCHAR" />
+    <result column="transport_date" property="transportDate" jdbcType="VARCHAR" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="driving_card_photos_z" property="drivingCardPhotosZ" jdbcType="VARCHAR" />
+    <result column="driving_card_photos_f" property="drivingCardPhotosF" jdbcType="VARCHAR" />
+    <result column="car_front_photo" property="carFrontPhoto" jdbcType="VARCHAR" />
+    <result column="transport_prove_photo" property="transportProvePhoto" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="statu" property="statu" jdbcType="INTEGER" />
+    <result column="reasion" property="reasion" jdbcType="VARCHAR" />
+    <result column="id1" property="id1" jdbcType="INTEGER" />
+    <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="birth_date" property="birthDate" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="driver_tel" property="driverTel" jdbcType="VARCHAR" />
+    <result column="registered_residence_province" property="registeredResidenceProvince" jdbcType="VARCHAR" />
+    <result column="registered_residence_city" property="registeredResidenceCity" jdbcType="VARCHAR" />
+    <result column="registered_residence_town" property="registeredResidenceTown" jdbcType="VARCHAR" />
+    <result column="driving_license_issue_place" property="drivingLicenseIssuePlace" jdbcType="VARCHAR" />
+    <result column="driving_license_effective_date" property="drivingLicenseEffectiveDate" jdbcType="VARCHAR" />
+    <result column="contact_address" property="contactAddress" jdbcType="VARCHAR" />
+    <result column="emergency_contact_name" property="emergencyContactName" jdbcType="VARCHAR" />
+    <result column="emergency_contact_tel" property="emergencyContactTel" jdbcType="VARCHAR" />
+    <result column="id_photo_z" property="idPhotoZ" jdbcType="VARCHAR" />
+    <result column="id_photo_f" property="idPhotoF" jdbcType="VARCHAR" />
+    <result column="driving_license_master_photo" property="drivingLicenseMasterPhoto" jdbcType="VARCHAR" />
+    <result column="driving_license_appendix_photo" property="drivingLicenseAppendixPhoto" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="findCarByCondition" parameterType="String" resultType="map">
+    SELECT * from car_information ci LEFT JOIN land_transportation lt ON ci.id=lt.car_information_id
+    <where>
+      <if test="carType != null and carType != '' and carType != 'null'">
+        ci.car_type=#{carType}
+      </if>
+      <if test="carLong != null and carLong != '' and carLong != 'null'">
+        AND ci.car_long=#{carLong}
+      </if>
+      <if test="carLoad != null and carLoad != '' and carLoad != 'null'">
+        AND ci.car_load=#{carLoad}
+      </if>
+    </where>
+  </select>
+
+  <select id="findCarByStatus" parameterType="INTEGER" resultType="map">
+    SELECT ci.id AS id,ci.user_id,ci.`status`,ci.`statu`,ci.car_brand,s.`code`,s.`name`,ci.car_load,ci.car_long,ci.car_width,
+    ci.car_high,ci.transport_date,ci.transport_prove,ci.license,ci.reasion
+    from car_information ci
+    LEFT JOIN syscode s
+    on ci.car_type=s.`code`
+    LEFT JOIN driver_information di
+    on ci. car_brand = di.car_brand
+    <where>
+      <if test="userId != null and userId != ''">
+        AND ci.user_id=#{userId}
+      </if>
+    </where>
+    AND ci. car_brand = di.car_brand
+    GROUP BY  ci.id order by id desc
+  </select>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, car_brand, car_type, car_long, car_width, car_high, car_load,
+    transport_prove, transport_date, license, driving_card_photos_z, driving_card_photos_f,
+    car_front_photo, transport_prove_photo, status,reasion,statu
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.CarInformationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from car_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from car_information-->
+    <!--where id = #{id,jdbcType=INTEGER}-->
+  <!--</select>-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select
+  c.id,
+  c.user_id,
+  c.user_name,
+  c.car_brand,
+  c.car_type,
+  c.car_long,
+  c.car_width,
+  c.car_high,
+  c.car_load,
+  c.transport_prove,
+  c.transport_date,
+  c.license,
+  c.driving_card_photos_z,
+  c.driving_card_photos_f,
+  c.car_front_photo,
+  c.transport_prove_photo,
+  c.status,
+  c.reasion,
+  c.statu,
+  d.id AS id1,
+  d.driver_name,
+  d.birth_date,
+  d.id_card,
+  d.driver_tel,
+  d.registered_residence_province,
+  d.registered_residence_city,
+  d.registered_residence_town,
+  d.driving_license_issue_place,
+  d.driving_license_effective_date,
+  d.contact_address,
+  d.emergency_contact_name,
+  d.emergency_contact_tel,
+  d.id_photo_f,
+  d.driving_license_master_photo,
+  d.driving_license_appendix_photo
+  from car_information c left join
+  driver_information d
+  on c.car_brand = d.car_brand
+  where c.id = #{id,jdbcType=INTEGER}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from car_information
+  d.id_photo_z,
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.CarInformationExample" >
+    delete from car_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.CarInformation" >
+    insert into car_information (id, user_id, user_name,
+    car_brand, car_type, car_long,
+    car_width, car_high, car_load,
+    transport_prove, transport_date, license,
+    driving_card_photos_z, driving_card_photos_f,
+    car_front_photo, transport_prove_photo, status,reasion,statu
+    )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+    #{carBrand,jdbcType=VARCHAR}, #{carType,jdbcType=VARCHAR}, #{carLong,jdbcType=DOUBLE},
+    #{carWidth,jdbcType=DOUBLE}, #{carHigh,jdbcType=DOUBLE}, #{carLoad,jdbcType=DOUBLE},
+    #{transportProve,jdbcType=VARCHAR}, #{transportDate,jdbcType=VARCHAR}, #{license,jdbcType=VARCHAR},
+    #{drivingCardPhotosZ,jdbcType=VARCHAR}, #{drivingCardPhotosF,jdbcType=VARCHAR},
+    #{carFrontPhoto,jdbcType=VARCHAR}, #{transportProvePhoto,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},#{reasion,jdbcType=VARCHAR},#{statu,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.CarInformation" >
+    insert into car_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="carBrand != null" >
+        car_brand,
+      </if>
+      <if test="carType != null" >
+        car_type,
+      </if>
+      <if test="carLong != null" >
+        car_long,
+      </if>
+      <if test="carWidth != null" >
+        car_width,
+      </if>
+      <if test="carHigh != null" >
+        car_high,
+      </if>
+      <if test="carLoad != null" >
+        car_load,
+      </if>
+      <if test="transportProve != null" >
+        transport_prove,
+      </if>
+      <if test="transportDate != null" >
+        transport_date,
+      </if>
+      <if test="license != null" >
+        license,
+      </if>
+      <if test="drivingCardPhotosZ != null" >
+        driving_card_photos_z,
+      </if>
+      <if test="drivingCardPhotosF != null" >
+        driving_card_photos_f,
+      </if>
+      <if test="carFrontPhoto != null" >
+        car_front_photo,
+      </if>
+      <if test="transportProvePhoto != null" >
+        transport_prove_photo,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="statu != null" >
+        statu,
+      </if>
+      <if test="reasion != null" >
+        reasion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carLong != null" >
+        #{carLong,jdbcType=DOUBLE},
+      </if>
+      <if test="carWidth != null" >
+        #{carWidth,jdbcType=DOUBLE},
+      </if>
+      <if test="carHigh != null" >
+        #{carHigh,jdbcType=DOUBLE},
+      </if>
+      <if test="carLoad != null" >
+        #{carLoad,jdbcType=DOUBLE},
+      </if>
+      <if test="transportProve != null" >
+        #{transportProve,jdbcType=VARCHAR},
+      </if>
+      <if test="transportDate != null" >
+        #{transportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingCardPhotosZ != null" >
+        #{drivingCardPhotosZ,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingCardPhotosF != null" >
+        #{drivingCardPhotosF,jdbcType=VARCHAR},
+      </if>
+      <if test="carFrontPhoto != null" >
+        #{carFrontPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="transportProvePhoto != null" >
+        #{transportProvePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="statu != null" >
+        #{statu,jdbcType=INTEGER},
+      </if>
+      <if test="reasion != null" >
+        #{reasion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.CarInformationExample" resultType="java.lang.Integer" >
+    select count(*) from car_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update car_information
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carBrand != null" >
+        car_brand = #{record.carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carType != null" >
+        car_type = #{record.carType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carLong != null" >
+        car_long = #{record.carLong,jdbcType=DOUBLE},
+      </if>
+      <if test="record.carWidth != null" >
+        car_width = #{record.carWidth,jdbcType=DOUBLE},
+      </if>
+      <if test="record.carHigh != null" >
+        car_high = #{record.carHigh,jdbcType=DOUBLE},
+      </if>
+      <if test="record.carLoad != null" >
+        car_load = #{record.carLoad,jdbcType=DOUBLE},
+      </if>
+      <if test="record.transportProve != null" >
+        transport_prove = #{record.transportProve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportDate != null" >
+        transport_date = #{record.transportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.license != null" >
+        license = #{record.license,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drivingCardPhotosZ != null" >
+        driving_card_photos_z = #{record.drivingCardPhotosZ,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drivingCardPhotosF != null" >
+        driving_card_photos_f = #{record.drivingCardPhotosF,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carFrontPhoto != null" >
+        car_front_photo = #{record.carFrontPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportProvePhoto != null" >
+        transport_prove_photo = #{record.transportProvePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.statu != null" >
+        statu = #{record.statu,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+    <if test="record.reasion != null" >
+      reasion = #{record.reasion,jdbcType=VARCHAR},
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update car_information
+    set id = #{record.id,jdbcType=INTEGER},
+    user_id = #{record.userId,jdbcType=INTEGER},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    car_brand = #{record.carBrand,jdbcType=VARCHAR},
+    car_type = #{record.carType,jdbcType=VARCHAR},
+    car_long = #{record.carLong,jdbcType=DOUBLE},
+    car_width = #{record.carWidth,jdbcType=DOUBLE},
+    car_high = #{record.carHigh,jdbcType=DOUBLE},
+    car_load = #{record.carLoad,jdbcType=DOUBLE},
+    transport_prove = #{record.transportProve,jdbcType=VARCHAR},
+    transport_date = #{record.transportDate,jdbcType=VARCHAR},
+    license = #{record.license,jdbcType=VARCHAR},
+    driving_card_photos_z = #{record.drivingCardPhotosZ,jdbcType=VARCHAR},
+    driving_card_photos_f = #{record.drivingCardPhotosF,jdbcType=VARCHAR},
+    car_front_photo = #{record.carFrontPhoto,jdbcType=VARCHAR},
+    transport_prove_photo = #{record.transportProvePhoto,jdbcType=VARCHAR},
+    reasion = #{record.reasion,jdbcType=VARCHAR},
+    status = #{record.status,jdbcType=INTEGER},
+    statu = #{record.statu,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.CarInformation" >
+    update car_information
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carLong != null" >
+        car_long = #{carLong,jdbcType=DOUBLE},
+      </if>
+      <if test="carWidth != null" >
+        car_width = #{carWidth,jdbcType=DOUBLE},
+      </if>
+      <if test="carHigh != null" >
+        car_high = #{carHigh,jdbcType=DOUBLE},
+      </if>
+      <if test="carLoad != null" >
+        car_load = #{carLoad,jdbcType=DOUBLE},
+      </if>
+      <if test="transportProve != null" >
+        transport_prove = #{transportProve,jdbcType=VARCHAR},
+      </if>
+      <if test="transportDate != null" >
+        transport_date = #{transportDate,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        license = #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingCardPhotosZ != null" >
+        driving_card_photos_z = #{drivingCardPhotosZ,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingCardPhotosF != null" >
+        driving_card_photos_f = #{drivingCardPhotosF,jdbcType=VARCHAR},
+      </if>
+      <if test="carFrontPhoto != null" >
+        car_front_photo = #{carFrontPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="transportProvePhoto != null" >
+        transport_prove_photo = #{transportProvePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="statu != null" >
+        statu = #{statu,jdbcType=INTEGER},
+      </if>
+      <if test="reasion != null" >
+        reasion = #{reasion,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.CarInformation" >
+    update car_information
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      car_brand = #{carBrand,jdbcType=VARCHAR},
+      car_type = #{carType,jdbcType=VARCHAR},
+      car_long = #{carLong,jdbcType=DOUBLE},
+      car_width = #{carWidth,jdbcType=DOUBLE},
+      car_high = #{carHigh,jdbcType=DOUBLE},
+      car_load = #{carLoad,jdbcType=DOUBLE},
+      transport_prove = #{transportProve,jdbcType=VARCHAR},
+      transport_date = #{transportDate,jdbcType=VARCHAR},
+      license = #{license,jdbcType=VARCHAR},
+      driving_card_photos_z = #{drivingCardPhotosZ,jdbcType=VARCHAR},
+      driving_card_photos_f = #{drivingCardPhotosF,jdbcType=VARCHAR},
+      car_front_photo = #{carFrontPhoto,jdbcType=VARCHAR},
+      transport_prove_photo = #{transportProvePhoto,jdbcType=VARCHAR},
+      reasion = #{reasion,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+      statu = #{statu,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.CarInformationExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from car_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

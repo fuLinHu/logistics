@@ -1,0 +1,36 @@
+
+/**********第三部分：定制风格样式**********/
+/**gmc的风格***/
+.text_right{
+    background: #F2F7FE;
+    font-weight: bold!important;
+    color: #5E7595!important;
+}
+.table-container table tr td{
+    border:1px solid #B8CCE2;
+}
+/*手风琴*/
+.totalList{
+    background:#ffffff;
+    padding-left:20px;
+}
+.tishi{
+    font-size: 14px;
+    /*font-weight: normal;*/
+    color: #797979;
+    font-weight: bold;
+    /*color: #75050e;*/
+    margin: 0 5px;
+}
+.clickAdd {
+    /*background: #F2F7FE;*/
+    background:#ffffff;
+    padding-left: 164px;
+    font-weight: bold;
+    color: #75050e;
+    font-size: 20px;
+    float: right;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}

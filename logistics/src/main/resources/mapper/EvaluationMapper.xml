@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.EvaluationMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.Evaluation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orders_num" property="ordersNum" jdbcType="VARCHAR" />
+    <result column="start_address" property="startAddress" jdbcType="VARCHAR" />
+    <result column="arrive_address" property="arriveAddress" jdbcType="VARCHAR" />
+    <result column="car_brand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="carrier_name" property="carrierName" jdbcType="VARCHAR" />
+    <result column="overall_evaluation" property="overallEvaluation" jdbcType="INTEGER" />
+    <result column="punctuality" property="punctuality" jdbcType="INTEGER" />
+    <result column="transport_integrity" property="transportIntegrity" jdbcType="INTEGER" />
+    <result column="other_messages" property="otherMessages" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orders_num, start_address, arrive_address, car_brand, carrier_name, overall_evaluation,
+    punctuality, transport_integrity, other_messages, order_id, flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.EvaluationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from evaluation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from evaluation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.EvaluationExample" >
+    delete from evaluation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.Evaluation" >
+    insert into evaluation (id, orders_num, start_address,
+    arrive_address, car_brand, carrier_name,
+    overall_evaluation, punctuality, transport_integrity,
+    other_messages, order_id, flag
+    )
+    values (#{id,jdbcType=INTEGER}, #{ordersNum,jdbcType=VARCHAR}, #{startAddress,jdbcType=VARCHAR},
+    #{arriveAddress,jdbcType=VARCHAR}, #{carBrand,jdbcType=VARCHAR}, #{carrierName,jdbcType=VARCHAR},
+    #{overallEvaluation,jdbcType=INTEGER}, #{punctuality,jdbcType=INTEGER}, #{transportIntegrity,jdbcType=INTEGER},
+    #{otherMessages,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.Evaluation" >
+    insert into evaluation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ordersNum != null" >
+        orders_num,
+      </if>
+      <if test="startAddress != null" >
+        start_address,
+      </if>
+      <if test="arriveAddress != null" >
+        arrive_address,
+      </if>
+      <if test="carBrand != null" >
+        car_brand,
+      </if>
+      <if test="carrierName != null" >
+        carrier_name,
+      </if>
+      <if test="overallEvaluation != null" >
+        overall_evaluation,
+      </if>
+      <if test="punctuality != null" >
+        punctuality,
+      </if>
+      <if test="transportIntegrity != null" >
+        transport_integrity,
+      </if>
+      <if test="otherMessages != null" >
+        other_messages,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ordersNum != null" >
+        #{ordersNum,jdbcType=VARCHAR},
+      </if>
+      <if test="startAddress != null" >
+        #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveAddress != null" >
+        #{arriveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carrierName != null" >
+        #{carrierName,jdbcType=VARCHAR},
+      </if>
+      <if test="overallEvaluation != null" >
+        #{overallEvaluation,jdbcType=INTEGER},
+      </if>
+      <if test="punctuality != null" >
+        #{punctuality,jdbcType=INTEGER},
+      </if>
+      <if test="transportIntegrity != null" >
+        #{transportIntegrity,jdbcType=INTEGER},
+      </if>
+      <if test="otherMessages != null" >
+        #{otherMessages,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.EvaluationExample" resultType="java.lang.Integer" >
+    select count(*) from evaluation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update evaluation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordersNum != null" >
+        orders_num = #{record.ordersNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startAddress != null" >
+        start_address = #{record.startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arriveAddress != null" >
+        arrive_address = #{record.arriveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carBrand != null" >
+        car_brand = #{record.carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carrierName != null" >
+        carrier_name = #{record.carrierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.overallEvaluation != null" >
+        overall_evaluation = #{record.overallEvaluation,jdbcType=INTEGER},
+      </if>
+      <if test="record.punctuality != null" >
+        punctuality = #{record.punctuality,jdbcType=INTEGER},
+      </if>
+      <if test="record.transportIntegrity != null" >
+        transport_integrity = #{record.transportIntegrity,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherMessages != null" >
+        other_messages = #{record.otherMessages,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update evaluation
+    set id = #{record.id,jdbcType=INTEGER},
+    orders_num = #{record.ordersNum,jdbcType=VARCHAR},
+    start_address = #{record.startAddress,jdbcType=VARCHAR},
+    arrive_address = #{record.arriveAddress,jdbcType=VARCHAR},
+    car_brand = #{record.carBrand,jdbcType=VARCHAR},
+    carrier_name = #{record.carrierName,jdbcType=VARCHAR},
+    overall_evaluation = #{record.overallEvaluation,jdbcType=INTEGER},
+    punctuality = #{record.punctuality,jdbcType=INTEGER},
+    transport_integrity = #{record.transportIntegrity,jdbcType=INTEGER},
+    other_messages = #{record.otherMessages,jdbcType=VARCHAR},
+    order_id = #{record.orderId,jdbcType=INTEGER},
+    flag = #{record.flag,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.Evaluation" >
+    update evaluation
+    <set >
+      <if test="ordersNum != null" >
+        orders_num = #{ordersNum,jdbcType=VARCHAR},
+      </if>
+      <if test="startAddress != null" >
+        start_address = #{startAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveAddress != null" >
+        arrive_address = #{arriveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carrierName != null" >
+        carrier_name = #{carrierName,jdbcType=VARCHAR},
+      </if>
+      <if test="overallEvaluation != null" >
+        overall_evaluation = #{overallEvaluation,jdbcType=INTEGER},
+      </if>
+      <if test="punctuality != null" >
+        punctuality = #{punctuality,jdbcType=INTEGER},
+      </if>
+      <if test="transportIntegrity != null" >
+        transport_integrity = #{transportIntegrity,jdbcType=INTEGER},
+      </if>
+      <if test="otherMessages != null" >
+        other_messages = #{otherMessages,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.Evaluation" >
+    update evaluation
+    set orders_num = #{ordersNum,jdbcType=VARCHAR},
+    start_address = #{startAddress,jdbcType=VARCHAR},
+    arrive_address = #{arriveAddress,jdbcType=VARCHAR},
+    car_brand = #{carBrand,jdbcType=VARCHAR},
+    carrier_name = #{carrierName,jdbcType=VARCHAR},
+    overall_evaluation = #{overallEvaluation,jdbcType=INTEGER},
+    punctuality = #{punctuality,jdbcType=INTEGER},
+    transport_integrity = #{transportIntegrity,jdbcType=INTEGER},
+    other_messages = #{otherMessages,jdbcType=VARCHAR},
+    order_id = #{orderId,jdbcType=INTEGER},
+    flag = #{flag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.EvaluationExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from evaluation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByOrderIdLand" resultMap="BaseResultMap" resultType="java.lang.Integer" >
+    select
+    o.id AS orderId,
+    o.orders_num AS orders_num,
+    o.start_address AS start_address,
+    o.arrive_address AS arrive_address,
+    o.transport_mode,
+    l.car_brand AS car_brand,
+    l.user_name AS carrier_name
+    from order_release o
+    left join land_transportation l
+    on o.id = l.order_id
+    where #{orderId,jdbcType=INTEGER} = l.order_id
+    and o.transport_mode = 1
+  </select>
+  <select id="selectByOrderIdOcean" resultMap="BaseResultMap" resultType="java.lang.Integer" >
+    select
+    o.id AS orderId,
+    o.orders_num AS orders_num,
+    o.start_address AS start_address,
+    o.arrive_address AS arrive_address,
+    o.transport_mode,
+    oc.voyage AS car_brand,
+    oc.user_name AS carrier_name
+    from order_release o
+    left join ocean_carriage_information oc
+    on o.transport_id = oc.id
+    where #{transportId,jdbcType=INTEGER} = oc.id
+    and o.transport_mode = 2
+  </select>
+</mapper>

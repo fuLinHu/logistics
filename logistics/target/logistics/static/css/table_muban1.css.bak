@@ -1,0 +1,127 @@
+/**
+    @肖华东 20170724
+    version 1.0
+**/
+
+/***********************第二部分：表格规范*************************/
+/*文本默认居左(输入框的操作较多，免除添加class等属性)*/
+body{
+    text-align: left;
+}
+/*文本居右*/
+.text_right{
+    text-align: right;
+}
+/*文本居中*/
+.text_center{
+    text-align: center;
+}
+/*表格的宽高的样式*/
+.form-table{
+    width: 1080px;
+    margin-left: 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+/*解决表格首行有跨列失效问题，定义12列，每列的宽度*/
+colgroup col{
+    width: 90px;
+}
+
+/**********表头*********/
+.table-head{
+    width: 100%;
+    margin: 40px auto 10px;
+}
+/*表头标题*/
+.table-head>h2{
+    text-align: center;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 28px;
+    color: #333333;
+    margin-bottom:30px;
+}
+/*表头，制单编号、制单人等*/
+.table-head>ul.clear{
+    width: 100%;
+}
+.table-head>ul>li{
+    display: inline-block;
+    width: 33.33%;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: #333333;
+}
+.table-head>ul>li>input{
+    color: #333;
+    font-size:14px;
+    border: none;
+}
+/**********表格主体************/
+/*表格样式*/
+.table-main{
+    border-collapse:collapse;
+    border-spacing:0;
+    border:1px solid #B8CCE2;
+    border-top: none;
+    width: 100%;
+    background:#fff;
+    box-sizing: border-box;
+}
+/*表头、表格主体、底部(签字等)*/
+.table-main tbody,.table-main thead,div.footer{
+    width: 100%;
+    overflow: hidden;
+}
+/*th、td的规定样式*/
+.table-container table tr td{
+    height:33px;
+    line-height:33px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    color: #333333;
+    border: 1px solid #000000;
+    vertical-align: middle;
+    overflow: inherit;/*溢出遮挡*/
+}
+/*表头*/
+.table-container table thead{
+    border: 0;
+}
+.table-container table thead th{
+    display: none;
+    height: 0;
+    border: transparent;
+    border: none;
+}
+/*td内的固定键（如：姓名）*/
+.table-container table td>span{
+    padding-right:5px;
+}
+/*td的输入值*/
+.table-main tr td select,.table-main tr td input,
+.table-main tr td textarea{
+    width: 97%;
+    height: 98%;
+    color: #333;
+    font-size:14px;
+    border: none;
+}
+/*input、select框的左外边距*/
+.table-main  tr td select,.table-main  tr td input{
+    padding-left:5px;
+    vertical-align: bottom;
+}
+/*多行文本框左内边距*/
+.table-main tr td textarea{
+    padding-left: 8px;
+    vertical-align: bottom;
+}
+/****表格底部，有签字等****/
+.footer{
+
+}
+

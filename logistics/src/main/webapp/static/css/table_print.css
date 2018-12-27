@@ -1,0 +1,23 @@
+/*打印时重新定义样式，表格900的宽度适合*/
+@media print{
+    .form-table{
+        width: 900px;
+        margin-left: 0;
+    }
+    .table-main tr td select,.table-main tr td input,
+    .table-main tr td textarea{
+        height: 95%;
+        color: #333;
+        font-size:14px;
+        border: none;
+    }
+    .tishi{
+        font-size: 13px;
+    }
+    .clickAdd {
+        font-size: 18px;
+        height:28px;
+        position: relative;
+        top:1px;
+    }
+}

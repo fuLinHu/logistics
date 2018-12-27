@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.PersonalInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.PersonalInfo" >
+    <id column="personal_info_id" property="personalInfoId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="idCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+
+    <result column="bankName" property="bankName" jdbcType="VARCHAR" />
+    <result column="alipayAccount" property="alipayAccount" jdbcType="VARCHAR" />
+    <result column="wxpayAccount" property="wxpayAccount" jdbcType="VARCHAR" />
+    <result column="alipayAccountRealName" property="alipayAccountRealName" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="INTEGER">
+    select
+    <include refid="Base_Column_List"></include>
+    from personal_info pi
+    where pi.user_id = #{userId}
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    personal_info_id, user_id, tel, city, address, idCard, bank_card,bankName,alipayAccount,wxpayAccount,alipayAccountRealName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.PersonalInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from personal_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from personal_info
+    where personal_info_id = #{personalInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personal_info
+    where personal_info_id = #{personalInfoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.PersonalInfoExample" >
+    delete from personal_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.PersonalInfo" >
+    insert into personal_info (personal_info_id, user_id, tel, 
+      city, address, idCard, 
+      bank_card,bankName,alipayAccount,wxpayAccount,alipayAccountRealName)
+    values (#{personalInfoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{tel,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
+      #{bankCard,jdbcType=VARCHAR},
+      #{bankName,jdbcType=VARCHAR},
+      #{alipayAccount,jdbcType=VARCHAR},
+      #{wxpayAccount,jdbcType=VARCHAR},
+       #{alipayAccountRealName,jdbcType=VARCHAR}
+
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.PersonalInfo" >
+    insert into personal_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="personalInfoId != null" >
+        personal_info_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="idcard != null" >
+        idCard,
+      </if>
+      <if test="bankCard != null" >
+        bank_card,
+      </if>
+      <if test="bankName != null" >
+        bankName,
+      </if>
+      <if test="alipayAccount != null" >
+        alipayAccount,
+      </if>
+      <if test="wxpayAccount != null" >
+        wxpayAccount,
+      </if>
+      <if test="alipayAccountRealName != null" >
+        alipayAccountRealName,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="personalInfoId != null" >
+        #{personalInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        #{bankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayAccount != null" >
+        #{alipayAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="wexpayAccount != null" >
+        #{wexpayAccount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.PersonalInfoExample" resultType="java.lang.Integer" >
+    select count(*) from personal_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update personal_info
+    <set >
+      <if test="record.personalInfoId != null" >
+        personal_info_id = #{record.personalInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tel != null" >
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idCard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCard != null" >
+        bank_card = #{record.bankCard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update personal_info
+    set personal_info_id = #{record.personalInfoId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      idCard = #{record.idcard,jdbcType=VARCHAR},
+      bank_card = #{record.bankCard,jdbcType=VARCHAR},
+    bankName = #{record.bankName,jdbcType=VARCHAR},
+    alipayAccount = #{record.alipayAccount,jdbcType=VARCHAR},
+    wxpayAccount = #{record.wxpayAccount,jdbcType=VARCHAR},
+    alipayAccountRealName = #{record.alipayAccountRealName,jdbcType=VARCHAR}
+
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.PersonalInfo" >
+    update personal_info
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCard != null" >
+        bank_card = #{bankCard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where personal_info_id = #{personalInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.PersonalInfo" >
+    update personal_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      tel = #{tel,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      idCard = #{idcard,jdbcType=VARCHAR},
+      bank_card = #{bankCard,jdbcType=VARCHAR},
+      bankName = #{bankName,jdbcType=VARCHAR},
+      alipayAccount = #{alipayAccount,jdbcType=VARCHAR},
+      wxpayAccount = #{wxpayAccount,jdbcType=VARCHAR},
+      alipayAccountRealName = #{alipayAccountRealName,jdbcType=VARCHAR}
+
+    where personal_info_id = #{personalInfoId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.PersonalInfoExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from personal_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+  <mapper namespace="com.aiwen.logistics.dao.UserFrontMapper" >
+    <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.UserFront" >
+      <id column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="account" property="account" jdbcType="VARCHAR" />
+      <result column="account_type" property="accountType" jdbcType="VARCHAR" />
+      <result column="user_name" property="userName" jdbcType="VARCHAR" />
+      <result column="passwoed" property="passwoed" jdbcType="VARCHAR" />
+      <result column="identity_type" property="identityType" jdbcType="INTEGER" />
+      <result column="delete_type" property="deleteType" jdbcType="INTEGER" />
+      <result column="created_time" property="createdTime" jdbcType="VARCHAR" />
+      <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+      <result column="flag" property="flag" jdbcType="VARCHAR" />
+      <result column="login_time" property="loginTime" jdbcType="VARCHAR" />
+      <result column="user_message" property="userMessage" jdbcType="VARCHAR" />
+      <result column="user_message1" property="userMessage1" jdbcType="VARCHAR" />
+    </resultMap>
+
+  <select id="findUserFrontBySupplier" resultMap="BaseResultMap" parameterType="INTEGER">
+    select
+    <include refid="Base_Column_List"></include>
+    from user_front uf
+    where uf.user_id = #{supplier}
+  </select>
+ <update id="updateByMail" parameterType="com.aiwen.logistics.pojo.UserFront">
+   update user_front
+   <set >
+     <if test="passwoed != null" >
+       passwoed = #{passwoed,jdbcType=VARCHAR},
+     </if>
+   </set>
+   <where>
+     account=#{account,jdbcType=VARCHAR}
+   </where>
+ </update>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, account, account_type, user_name, passwoed, identity_type, delete_type, 
+    created_time, update_time, flag, login_time,user_message,user_message1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.UserFrontExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user_front
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_front
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.UserFrontExample" >
+    delete from user_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.UserFront" >
+    insert into user_front (user_id, account, account_type,
+    user_name, passwoed, identity_type,
+    delete_type, created_time, update_time,
+    flag, login_time,user_message,user_message1)
+    values (#{userId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{accountType,jdbcType=VARCHAR},
+    #{userName,jdbcType=VARCHAR}, #{passwoed,jdbcType=VARCHAR}, #{identityType,jdbcType=INTEGER},
+    #{deleteType,jdbcType=INTEGER}, #{createdTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+    #{flag,jdbcType=VARCHAR}, #{loginTime,jdbcType=VARCHAR}, #{userMessage,jdbcType=VARCHAR}, #{userMessage1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.UserFront" >
+    insert into user_front
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="accountType != null" >
+        account_type,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="passwoed != null" >
+        passwoed,
+      </if>
+      <if test="identityType != null" >
+        identity_type,
+      </if>
+      <if test="deleteType != null" >
+        delete_type,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="loginTime != null" >
+        login_time,
+      </if>
+      <if test="userMessage != null" >
+        user_message,
+      </if>
+      <if test="userMessage1 != null" >
+        user_message1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwoed != null" >
+        #{passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null" >
+        #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="deleteType != null" >
+        #{deleteType,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userMessage != null" >
+        #{userMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="userMessage1 != null" >
+        #{userMessage1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.UserFrontExample" resultType="java.lang.Integer" >
+    select count(*) from user_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_front
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null" >
+        account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountType != null" >
+        account_type = #{record.accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwoed != null" >
+        passwoed = #{record.passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityType != null" >
+        identity_type = #{record.identityType,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleteType != null" >
+        delete_type = #{record.deleteType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdTime != null" >
+        created_time = #{record.createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginTime != null" >
+        login_time = #{record.loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userMessage != null" >
+        user_message = #{record.userMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userMessage1 != null" >
+        user_message1 = #{record.userMessage1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_front
+    set user_id = #{record.userId,jdbcType=INTEGER},
+    account = #{record.account,jdbcType=VARCHAR},
+    account_type = #{record.accountType,jdbcType=VARCHAR},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    passwoed = #{record.passwoed,jdbcType=VARCHAR},
+    identity_type = #{record.identityType,jdbcType=INTEGER},
+    delete_type = #{record.deleteType,jdbcType=INTEGER},
+    created_time = #{record.createdTime,jdbcType=VARCHAR},
+    update_time = #{record.updateTime,jdbcType=VARCHAR},
+    flag = #{record.flag,jdbcType=VARCHAR},
+    login_time = #{record.loginTime,jdbcType=VARCHAR},
+    user_message = #{record.userMessage,jdbcType=VARCHAR},
+    user_message1 = #{record.userMessage1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.UserFront" >
+    update user_front
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        account_type = #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwoed != null" >
+        passwoed = #{passwoed,jdbcType=VARCHAR},
+      </if>
+      <if test="identityType != null" >
+        identity_type = #{identityType,jdbcType=INTEGER},
+      </if>
+      <if test="deleteType != null" >
+        delete_type = #{deleteType,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        login_time = #{loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userMessage != null" >
+        user_message = #{userMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="userMessage1 != null" >
+        user_message1 = #{userMessage1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.UserFront" >
+    update user_front
+    set account = #{account,jdbcType=VARCHAR},
+      account_type = #{accountType,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      passwoed = #{passwoed,jdbcType=VARCHAR},
+      identity_type = #{identityType,jdbcType=INTEGER},
+      delete_type = #{deleteType,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=VARCHAR},
+      user_message = #{userMessage,jdbcType=VARCHAR},
+       user_message1 = #{userMessage1,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.UserFrontExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_front
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

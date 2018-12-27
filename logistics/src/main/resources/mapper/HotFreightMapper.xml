@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.HotFreightMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.HotFreight" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="release_date" property="releaseDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="freight_way" property="freightWay" jdbcType="INTEGER" />
+    <result column="start_place" property="startPlace" jdbcType="VARCHAR" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="freight" property="freight" jdbcType="DOUBLE" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="freight_channel" property="freightChannel" jdbcType="VARCHAR" />
+    <result column="accord_state" property="accordState" jdbcType="INTEGER" />
+    <result column="creat_date" property="creatDate" jdbcType="DATE" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, release_date, end_date, freight_way, start_place, destination, freight, model, 
+    freight_channel, accord_state, creat_date, update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.HotFreightExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hot_freight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hot_freight
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hot_freight
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.HotFreightExample" >
+    delete from hot_freight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.HotFreight" >
+    insert into hot_freight (id, release_date, end_date, 
+      freight_way, start_place, destination, 
+      freight, model, freight_channel, 
+      accord_state, creat_date, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{releaseDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{freightWay,jdbcType=INTEGER}, #{startPlace,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, 
+      #{freight,jdbcType=DOUBLE}, #{model,jdbcType=VARCHAR}, #{freightChannel,jdbcType=VARCHAR}, 
+      #{accordState,jdbcType=INTEGER}, #{creatDate,jdbcType=DATE}, #{updateDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.HotFreight" >
+    insert into hot_freight
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="releaseDate != null" >
+        release_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="freightWay != null" >
+        freight_way,
+      </if>
+      <if test="startPlace != null" >
+        start_place,
+      </if>
+      <if test="destination != null" >
+        destination,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="freightChannel != null" >
+        freight_channel,
+      </if>
+      <if test="accordState != null" >
+        accord_state,
+      </if>
+      <if test="creatDate != null" >
+        creat_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="releaseDate != null" >
+        #{releaseDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="freightWay != null" >
+        #{freightWay,jdbcType=INTEGER},
+      </if>
+      <if test="startPlace != null" >
+        #{startPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DOUBLE},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="freightChannel != null" >
+        #{freightChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="accordState != null" >
+        #{accordState,jdbcType=INTEGER},
+      </if>
+      <if test="creatDate != null" >
+        #{creatDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.HotFreightExample" resultType="java.lang.Integer" >
+    select count(*) from hot_freight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update hot_freight
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.releaseDate != null" >
+        release_date = #{record.releaseDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.freightWay != null" >
+        freight_way = #{record.freightWay,jdbcType=INTEGER},
+      </if>
+      <if test="record.startPlace != null" >
+        start_place = #{record.startPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destination != null" >
+        destination = #{record.destination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freight != null" >
+        freight = #{record.freight,jdbcType=DOUBLE},
+      </if>
+      <if test="record.model != null" >
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freightChannel != null" >
+        freight_channel = #{record.freightChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accordState != null" >
+        accord_state = #{record.accordState,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatDate != null" >
+        creat_date = #{record.creatDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update hot_freight
+    set id = #{record.id,jdbcType=INTEGER},
+      release_date = #{record.releaseDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      freight_way = #{record.freightWay,jdbcType=INTEGER},
+      start_place = #{record.startPlace,jdbcType=VARCHAR},
+      destination = #{record.destination,jdbcType=VARCHAR},
+      freight = #{record.freight,jdbcType=DOUBLE},
+      model = #{record.model,jdbcType=VARCHAR},
+      freight_channel = #{record.freightChannel,jdbcType=VARCHAR},
+      accord_state = #{record.accordState,jdbcType=INTEGER},
+      creat_date = #{record.creatDate,jdbcType=DATE},
+      update_date = #{record.updateDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.HotFreight" >
+    update hot_freight
+    <set >
+      <if test="releaseDate != null" >
+        release_date = #{releaseDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="freightWay != null" >
+        freight_way = #{freightWay,jdbcType=INTEGER},
+      </if>
+      <if test="startPlace != null" >
+        start_place = #{startPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=DOUBLE},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="freightChannel != null" >
+        freight_channel = #{freightChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="accordState != null" >
+        accord_state = #{accordState,jdbcType=INTEGER},
+      </if>
+      <if test="creatDate != null" >
+        creat_date = #{creatDate,jdbcType=DATE},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.HotFreight" >
+    update hot_freight
+    set release_date = #{releaseDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      freight_way = #{freightWay,jdbcType=INTEGER},
+      start_place = #{startPlace,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      freight = #{freight,jdbcType=DOUBLE},
+      model = #{model,jdbcType=VARCHAR},
+      freight_channel = #{freightChannel,jdbcType=VARCHAR},
+      accord_state = #{accordState,jdbcType=INTEGER},
+      creat_date = #{creatDate,jdbcType=DATE},
+      update_date = #{updateDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.HotFreightExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hot_freight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

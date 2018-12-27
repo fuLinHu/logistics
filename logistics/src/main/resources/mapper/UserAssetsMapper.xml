@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.UserAssetsMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.UserAssets" >
+    <id column="assets_id" property="assetsId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="recharge_amount" property="rechargeAmount" jdbcType="DOUBLE" />
+    <result column="recharge_time" property="rechargeTime" jdbcType="VARCHAR" />
+    <result column="recharge_code" property="rechargeCode" jdbcType="VARCHAR" />
+    <result column="recharge_type" property="rechargeType" jdbcType="VARCHAR" />
+    <result column="all_assets" property="allAssets" jdbcType="DOUBLE" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="INTEGER">
+    select
+    <include refid="Base_Column_List"></include>
+    from user_assets us
+    where us.user_id = #{userId} AND us.flag = #{flag} order by assets_id desc
+  </select>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    assets_id, user_id, recharge_amount, recharge_time, all_assets, update_time,flag,recharge_code,recharge_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.UserAssetsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_assets
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause} DESC 
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_assets
+    where assets_id = #{assetsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_assets
+    where assets_id = #{assetsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.UserAssetsExample" >
+    delete from user_assets
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.UserAssets" >
+    insert into user_assets (assets_id, user_id, recharge_amount, 
+      recharge_time, all_assets, update_time,flag,recharge_code,recharge_type
+      )
+    values (#{assetsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{rechargeAmount,jdbcType=DOUBLE}, 
+      #{rechargeTime,jdbcType=VARCHAR},
+       #{allAssets,jdbcType=DOUBLE}, #{updateTime,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER},
+       #{rechargeCode,jdbcType=VARCHAR},
+       #{rechargeType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.UserAssets" >
+    insert into user_assets
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="assetsId != null" >
+        assets_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="rechargeAmount != null" >
+        recharge_amount,
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time,
+      </if>
+      <if test="allAssets != null" >
+        all_assets,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="assetsId != null" >
+        #{assetsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeAmount != null" >
+        #{rechargeAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="rechargeTime != null" >
+        #{rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="allAssets != null" >
+        #{allAssets,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.UserAssetsExample" resultType="java.lang.Integer" >
+    select count(*) from user_assets
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_assets
+    <set >
+      <if test="record.assetsId != null" >
+        assets_id = #{record.assetsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeAmount != null" >
+        recharge_amount = #{record.rechargeAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.rechargeTime != null" >
+        recharge_time = #{record.rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allAssets != null" >
+        all_assets = #{record.allAssets,jdbcType=DOUBLE},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rechargeCode != null" >
+         recharge_code = #{record.rechargeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rechargeType != null" >
+        recharge_type = #{record.rechargeType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_assets
+    set assets_id = #{record.assetsId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+    flag = #{record.flag,jdbcType=INTEGER},
+      recharge_amount = #{record.rechargeAmount,jdbcType=DOUBLE},
+      recharge_time = #{record.rechargeTime,jdbcType=VARCHAR},
+      all_assets = #{record.allAssets,jdbcType=DOUBLE},
+      update_time = #{record.updateTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.UserAssets" >
+    update user_assets
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeAmount != null" >
+        recharge_amount = #{rechargeAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time = #{rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="allAssets != null" >
+        all_assets = #{allAssets,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where assets_id = #{assetsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.UserAssets" >
+    update user_assets
+    set user_id = #{userId,jdbcType=INTEGER},
+    flag = #{flag,jdbcType=INTEGER},
+      recharge_amount = #{rechargeAmount,jdbcType=DOUBLE},
+      recharge_time = #{rechargeTime,jdbcType=VARCHAR},
+      all_assets = #{allAssets,jdbcType=DOUBLE},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where assets_id = #{assetsId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.UserAssetsExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_assets
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

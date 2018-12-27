@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.ShipDynamicMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.ShipDynamic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ship_name" property="shipName" jdbcType="VARCHAR" />
+    <result column="voyage_number" property="voyageNumber" jdbcType="VARCHAR" />
+    <result column="wharf" property="wharf" jdbcType="VARCHAR" />
+    <result column="start_port_time" property="startPortTime" jdbcType="TIMESTAMP" />
+    <result column="end_port_time" property="endPortTime" jdbcType="TIMESTAMP" />
+    <result column="shutoff_box_time" property="shutoffBoxTime" jdbcType="TIMESTAMP" />
+    <result column="box_cutoff_time" property="boxCutoffTime" jdbcType="TIMESTAMP" />
+    <result column="expect_ship_time" property="expectShipTime" jdbcType="TIMESTAMP" />
+    <result column="expect_open_ship_time" property="expectOpenShipTime" jdbcType="TIMESTAMP" />
+    <result column="accord_state" property="accordState" jdbcType="INTEGER" />
+    <result column="creat_date" property="creatDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, ship_name, voyage_number, wharf, start_port_time, end_port_time, shutoff_box_time, 
+    box_cutoff_time, expect_ship_time, expect_open_ship_time, accord_state, creat_date, 
+    update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.ShipDynamicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ship_dynamic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ship_dynamic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ship_dynamic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.ShipDynamicExample" >
+    delete from ship_dynamic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.ShipDynamic" >
+    insert into ship_dynamic (id, ship_name, voyage_number, 
+      wharf, start_port_time, end_port_time, 
+      shutoff_box_time, box_cutoff_time, expect_ship_time, 
+      expect_open_ship_time, accord_state, creat_date, 
+      update_date)
+    values (#{id,jdbcType=INTEGER}, #{shipName,jdbcType=VARCHAR}, #{voyageNumber,jdbcType=VARCHAR}, 
+      #{wharf,jdbcType=VARCHAR}, #{startPortTime,jdbcType=TIMESTAMP}, #{endPortTime,jdbcType=TIMESTAMP}, 
+      #{shutoffBoxTime,jdbcType=TIMESTAMP}, #{boxCutoffTime,jdbcType=TIMESTAMP}, #{expectShipTime,jdbcType=TIMESTAMP}, 
+      #{expectOpenShipTime,jdbcType=TIMESTAMP}, #{accordState,jdbcType=INTEGER}, #{creatDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.ShipDynamic" >
+    insert into ship_dynamic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shipName != null" >
+        ship_name,
+      </if>
+      <if test="voyageNumber != null" >
+        voyage_number,
+      </if>
+      <if test="wharf != null" >
+        wharf,
+      </if>
+      <if test="startPortTime != null" >
+        start_port_time,
+      </if>
+      <if test="endPortTime != null" >
+        end_port_time,
+      </if>
+      <if test="shutoffBoxTime != null" >
+        shutoff_box_time,
+      </if>
+      <if test="boxCutoffTime != null" >
+        box_cutoff_time,
+      </if>
+      <if test="expectShipTime != null" >
+        expect_ship_time,
+      </if>
+      <if test="expectOpenShipTime != null" >
+        expect_open_ship_time,
+      </if>
+      <if test="accordState != null" >
+        accord_state,
+      </if>
+      <if test="creatDate != null" >
+        creat_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shipName != null" >
+        #{shipName,jdbcType=VARCHAR},
+      </if>
+      <if test="voyageNumber != null" >
+        #{voyageNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="wharf != null" >
+        #{wharf,jdbcType=VARCHAR},
+      </if>
+      <if test="startPortTime != null" >
+        #{startPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endPortTime != null" >
+        #{endPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shutoffBoxTime != null" >
+        #{shutoffBoxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxCutoffTime != null" >
+        #{boxCutoffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectShipTime != null" >
+        #{expectShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectOpenShipTime != null" >
+        #{expectOpenShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accordState != null" >
+        #{accordState,jdbcType=INTEGER},
+      </if>
+      <if test="creatDate != null" >
+        #{creatDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.ShipDynamicExample" resultType="java.lang.Integer" >
+    select count(*) from ship_dynamic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ship_dynamic
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shipName != null" >
+        ship_name = #{record.shipName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voyageNumber != null" >
+        voyage_number = #{record.voyageNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wharf != null" >
+        wharf = #{record.wharf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startPortTime != null" >
+        start_port_time = #{record.startPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endPortTime != null" >
+        end_port_time = #{record.endPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shutoffBoxTime != null" >
+        shutoff_box_time = #{record.shutoffBoxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.boxCutoffTime != null" >
+        box_cutoff_time = #{record.boxCutoffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expectShipTime != null" >
+        expect_ship_time = #{record.expectShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expectOpenShipTime != null" >
+        expect_open_ship_time = #{record.expectOpenShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accordState != null" >
+        accord_state = #{record.accordState,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatDate != null" >
+        creat_date = #{record.creatDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ship_dynamic
+    set id = #{record.id,jdbcType=INTEGER},
+      ship_name = #{record.shipName,jdbcType=VARCHAR},
+      voyage_number = #{record.voyageNumber,jdbcType=VARCHAR},
+      wharf = #{record.wharf,jdbcType=VARCHAR},
+      start_port_time = #{record.startPortTime,jdbcType=TIMESTAMP},
+      end_port_time = #{record.endPortTime,jdbcType=TIMESTAMP},
+      shutoff_box_time = #{record.shutoffBoxTime,jdbcType=TIMESTAMP},
+      box_cutoff_time = #{record.boxCutoffTime,jdbcType=TIMESTAMP},
+      expect_ship_time = #{record.expectShipTime,jdbcType=TIMESTAMP},
+      expect_open_ship_time = #{record.expectOpenShipTime,jdbcType=TIMESTAMP},
+      accord_state = #{record.accordState,jdbcType=INTEGER},
+      creat_date = #{record.creatDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.ShipDynamic" >
+    update ship_dynamic
+    <set >
+      <if test="shipName != null" >
+        ship_name = #{shipName,jdbcType=VARCHAR},
+      </if>
+      <if test="voyageNumber != null" >
+        voyage_number = #{voyageNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="wharf != null" >
+        wharf = #{wharf,jdbcType=VARCHAR},
+      </if>
+      <if test="startPortTime != null" >
+        start_port_time = #{startPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endPortTime != null" >
+        end_port_time = #{endPortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shutoffBoxTime != null" >
+        shutoff_box_time = #{shutoffBoxTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxCutoffTime != null" >
+        box_cutoff_time = #{boxCutoffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectShipTime != null" >
+        expect_ship_time = #{expectShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectOpenShipTime != null" >
+        expect_open_ship_time = #{expectOpenShipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accordState != null" >
+        accord_state = #{accordState,jdbcType=INTEGER},
+      </if>
+      <if test="creatDate != null" >
+        creat_date = #{creatDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.ShipDynamic" >
+    update ship_dynamic
+    set ship_name = #{shipName,jdbcType=VARCHAR},
+      voyage_number = #{voyageNumber,jdbcType=VARCHAR},
+      wharf = #{wharf,jdbcType=VARCHAR},
+      start_port_time = #{startPortTime,jdbcType=TIMESTAMP},
+      end_port_time = #{endPortTime,jdbcType=TIMESTAMP},
+      shutoff_box_time = #{shutoffBoxTime,jdbcType=TIMESTAMP},
+      box_cutoff_time = #{boxCutoffTime,jdbcType=TIMESTAMP},
+      expect_ship_time = #{expectShipTime,jdbcType=TIMESTAMP},
+      expect_open_ship_time = #{expectOpenShipTime,jdbcType=TIMESTAMP},
+      accord_state = #{accordState,jdbcType=INTEGER},
+      creat_date = #{creatDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.ShipDynamicExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ship_dynamic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

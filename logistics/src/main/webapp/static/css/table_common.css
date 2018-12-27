@@ -1,0 +1,29 @@
+/**
+    @肖华东 20170724
+    version 1.0
+**/
+/*第一部分：通用样式*/
+body {
+    font: 14px "microsoft yahei", Arial, Helvetica, sans-serif;
+    color:#333;
+    margin:0;
+    padding:0;
+}
+body, div, dl, dt, dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote，th,td{margin:0;padding:0;border:none;list-style:none;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img {border:0;}
+address,caption, cite,code,dfn,em,strong,th,var,i,b,u,s{font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clear{overflow:hidden;}
+.clearFloat{
+    content:"";
+    display:block;
+    clear:both;
+}
+

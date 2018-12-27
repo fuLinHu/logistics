@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aiwen.logistics.dao.LandTransportationMapper" >
+  <resultMap id="BaseResultMap" type="com.aiwen.logistics.pojo.LandTransportation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="car_brand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="car_information_id" property="carInformationId" jdbcType="INTEGER" />
+    <result column="departure_start_time" property="departureStartTime" jdbcType="VARCHAR" />
+    <result column="departure_end_time" property="departureEndTime" jdbcType="VARCHAR" />
+    <result column="departure_province" property="departureProvince" jdbcType="VARCHAR" />
+    <result column="departure_city" property="departureCity" jdbcType="VARCHAR" />
+    <result column="departure_area" property="departureArea" jdbcType="VARCHAR" />
+    <result column="destination_province" property="destinationProvince" jdbcType="VARCHAR" />
+    <result column="destination_city" property="destinationCity" jdbcType="VARCHAR" />
+    <result column="destination_area" property="destinationArea" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="departure" property="departure" jdbcType="VARCHAR" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="selectByStatus" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT lt.id,lt.`status`,uf.user_name,pi.tel,ci.car_brand,s.`name`,ci.car_load,ci.car_long
+    from land_transportation lt
+    LEFT JOIN car_information ci
+    ON lt.car_information_id=ci.id
+    LEFT JOIN user_front uf
+    on uf.user_id=ci.user_id
+    LEFT JOIN personal_info pi
+    on pi.user_id=uf.user_id
+    LEFT JOIN syscode s
+    ON s.code=ci.car_type
+    <where>
+      <if test="status != null and status != ''">
+        lt.status=#{status,jdbcType=INTEGER}
+      </if>
+      <if test="accountType != null and accountType != ''">
+        AND  uf.account_type=#{accountType,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null">
+        AND  uf.user_id=#{userId,jdbcType=INTEGER}
+      </if>
+      <if test="identityType != null">
+        AND  uf.identity_type=#{identityType,jdbcType=INTEGER}
+      </if>
+    </where>
+    GROUP BY  lt.id
+  </select>
+
+  <select id="findTransportationByStatus" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT lt.id,lt.`status`,uf.user_name,pi.tel,ci.car_brand,s.`name`,ci.car_load,ci.car_long
+    from land_transportation lt
+    LEFT JOIN car_information ci
+    ON lt.car_information_id=ci.id
+    LEFT JOIN user_front uf
+    on uf.user_id=ci.user_id
+    LEFT JOIN personal_info pi
+    on pi.user_id=uf.user_id
+    LEFT JOIN syscode s
+    ON s.code=ci.car_type
+    <where>
+      s.type=1
+      <if test="status != null and status != ''">
+        AND lt.status=#{status,jdbcType=INTEGER}
+      </if>
+      <if test="carType != null and carType != ''">
+        AND  s.code = #{carType,jdbcType=VARCHAR}
+      </if>
+      <if test="carLoad != null">
+        AND  ci.car_load >= #{carLoad,jdbcType=DOUBLE}
+      </if>
+      <if test="carLong != null">
+        AND  ci.car_long >= #{carLong,jdbcType=DOUBLE}
+      </if>
+    </where>
+      LIMIT #{startRow,jdbcType=INTEGER},#{endRow,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="countAllByCondition" parameterType="java.util.Map" resultType="INTEGER">
+    SELECT count(*)
+    from land_transportation lt
+    LEFT JOIN car_information ci
+    ON lt.car_information_id=ci.id
+    LEFT JOIN user_front uf
+    on uf.user_id=ci.user_id
+    LEFT JOIN personal_info pi
+    on pi.user_id=uf.user_id
+    LEFT JOIN syscode s
+    ON s.code=ci.car_type
+    <where>
+      <if test="status != null and status != ''">
+        lt.status=#{status,jdbcType=INTEGER}
+      </if>
+      <if test="carType != null and carType != ''">
+        AND  s.code = #{carType,jdbcType=VARCHAR}
+      </if>
+      <if test="carLoad != null">
+        AND  ci.car_load >= #{carLoad,jdbcType=DOUBLE}
+      </if>
+      <if test="carLong != null">
+        AND  ci.car_long >= #{carLong,jdbcType=DOUBLE}
+      </if>
+    </where>
+  </select>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, car_brand, car_information_id, departure_start_time, departure_end_time, departure_province,
+    departure_city, departure_area, destination_province, destination_city, destination_area,
+    status, user_name, departure, destination,order_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.LandTransportationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from land_transportation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from land_transportation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from land_transportation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.aiwen.logistics.pojo.LandTransportationExample" >
+    delete from land_transportation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.aiwen.logistics.pojo.LandTransportation" >
+    insert into land_transportation (id, car_brand, car_information_id,
+    departure_start_time, departure_end_time, departure_province,
+    departure_city, departure_area, destination_province,
+    destination_city, destination_area, status,
+    user_name, departure, destination,order_id
+    )
+    values (#{id,jdbcType=INTEGER}, #{carBrand,jdbcType=VARCHAR}, #{carInformationId,jdbcType=INTEGER},
+    #{departureStartTime,jdbcType=VARCHAR}, #{departureEndTime,jdbcType=VARCHAR}, #{departureProvince,jdbcType=VARCHAR},
+    #{departureCity,jdbcType=VARCHAR}, #{departureArea,jdbcType=VARCHAR}, #{destinationProvince,jdbcType=VARCHAR},
+    #{destinationCity,jdbcType=VARCHAR}, #{destinationArea,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+    #{userName,jdbcType=VARCHAR}, #{departure,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR},#{orderId,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aiwen.logistics.pojo.LandTransportation" >
+    insert into land_transportation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="carBrand != null" >
+        car_brand,
+      </if>
+      <if test="carInformationId != null" >
+        car_information_id,
+      </if>
+      <if test="departureStartTime != null" >
+        departure_start_time,
+      </if>
+      <if test="departureEndTime != null" >
+        departure_end_time,
+      </if>
+      <if test="departureProvince != null" >
+        departure_province,
+      </if>
+      <if test="departureCity != null" >
+        departure_city,
+      </if>
+      <if test="departureArea != null" >
+        departure_area,
+      </if>
+      <if test="destinationProvince != null" >
+        destination_province,
+      </if>
+      <if test="destinationCity != null" >
+        destination_city,
+      </if>
+      <if test="destinationArea != null" >
+        destination_area,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="departure != null" >
+        departure,
+      </if>
+      <if test="destination != null" >
+        destination,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="carBrand != null" >
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carInformationId != null" >
+        #{carInformationId,jdbcType=INTEGER},
+      </if>
+      <if test="departureStartTime != null" >
+        #{departureStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="departureEndTime != null" >
+        #{departureEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="departureProvince != null" >
+        #{departureProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="departureCity != null" >
+        #{departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="departureArea != null" >
+        #{departureArea,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvince != null" >
+        #{destinationProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCity != null" >
+        #{destinationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationArea != null" >
+        #{destinationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null" >
+        #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.aiwen.logistics.pojo.LandTransportationExample" resultType="java.lang.Integer" >
+    select count(*) from land_transportation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update land_transportation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.carBrand != null" >
+        car_brand = #{record.carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carInformationId != null" >
+        car_information_id = #{record.carInformationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.departureStartTime != null" >
+        departure_start_time = #{record.departureStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departureEndTime != null" >
+        departure_end_time = #{record.departureEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departureProvince != null" >
+        departure_province = #{record.departureProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departureCity != null" >
+        departure_city = #{record.departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departureArea != null" >
+        departure_area = #{record.departureArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destinationProvince != null" >
+        destination_province = #{record.destinationProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destinationCity != null" >
+        destination_city = #{record.destinationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destinationArea != null" >
+        destination_area = #{record.destinationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departure != null" >
+        departure = #{record.departure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destination != null" >
+        destination = #{record.destination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update land_transportation
+    set id = #{record.id,jdbcType=INTEGER},
+    car_brand = #{record.carBrand,jdbcType=VARCHAR},
+    car_information_id = #{record.carInformationId,jdbcType=INTEGER},
+    order_id = #{record.orderId,jdbcType=INTEGER},
+    departure_start_time = #{record.departureStartTime,jdbcType=VARCHAR},
+    departure_end_time = #{record.departureEndTime,jdbcType=VARCHAR},
+    departure_province = #{record.departureProvince,jdbcType=VARCHAR},
+    departure_city = #{record.departureCity,jdbcType=VARCHAR},
+    departure_area = #{record.departureArea,jdbcType=VARCHAR},
+    destination_province = #{record.destinationProvince,jdbcType=VARCHAR},
+    destination_city = #{record.destinationCity,jdbcType=VARCHAR},
+    destination_area = #{record.destinationArea,jdbcType=VARCHAR},
+    status = #{record.status,jdbcType=INTEGER},
+    user_name = #{record.userName,jdbcType=VARCHAR},
+    departure = #{record.departure,jdbcType=VARCHAR},
+    destination = #{record.destination,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aiwen.logistics.pojo.LandTransportation" >
+    update land_transportation
+    <set >
+      <if test="carBrand != null" >
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carInformationId != null" >
+        car_information_id = #{carInformationId,jdbcType=INTEGER},
+      </if>
+      <if test="departureStartTime != null" >
+        departure_start_time = #{departureStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="departureEndTime != null" >
+        departure_end_time = #{departureEndTime,jdbcType=VARCHAR},
+      </if>
+      <if test="departureProvince != null" >
+        departure_province = #{departureProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="departureCity != null" >
+        departure_city = #{departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="departureArea != null" >
+        departure_area = #{departureArea,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvince != null" >
+        destination_province = #{destinationProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCity != null" >
+        destination_city = #{destinationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationArea != null" >
+        destination_area = #{destinationArea,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null" >
+        departure = #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aiwen.logistics.pojo.LandTransportation" >
+    update land_transportation
+    set car_brand = #{carBrand,jdbcType=VARCHAR},
+      car_information_id = #{carInformationId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      departure_start_time = #{departureStartTime,jdbcType=VARCHAR},
+      departure_end_time = #{departureEndTime,jdbcType=VARCHAR},
+      departure_province = #{departureProvince,jdbcType=VARCHAR},
+      departure_city = #{departureCity,jdbcType=VARCHAR},
+      departure_area = #{departureArea,jdbcType=VARCHAR},
+      destination_province = #{destinationProvince,jdbcType=VARCHAR},
+      destination_city = #{destinationCity,jdbcType=VARCHAR},
+      destination_area = #{destinationArea,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      departure = #{departure,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.aiwen.logistics.pojo.LandTransportationExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from land_transportation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
